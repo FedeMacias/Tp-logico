@@ -31,6 +31,8 @@ mismaCantidadAmbientes(Propiedad1,Propiedad2):-
   cantidadAmbientes(Propiedad2,Metros).
 
 %--version 1--
+usuario(carlos).
+usuario(maria).
 quiereCantidadDeAmbientes(carlos,3).
 quiereCantidadDeAmbientes(maria,2).
 quiereCantidadDeAmbientes(pedro,2).
@@ -40,12 +42,14 @@ quiereJardin(carlos).
 quiereJardin(chameleon).
 
 quierePiscina(ana,100).
+quierePiscina(carlos,30).
 quierePiscina(maria,15).
 quierePiscina(pedro,15).
 quierePiscina(chameleon,100).
 
 propiedadCompatible(Nombre, Propiedad):-
-  compatibleJardin(Nombre, Propiedad).
+  compatibleJardin(Nombre, Propiedad),
+  compatibleCantidadAmbientes(Nombre,Propiedad).
   compatiblePileta(Nombre,Propiedad).
 
 
@@ -53,8 +57,14 @@ compatibleJardin(Nombre,Propiedad):-
   quiereJardin(Nombre),
   jardin(Propiedad).
 
+  compatibleCantidadAmbientes(Nombre,Propiedad):-
+    quiereCantidadDeAmbiente(Nombre,CantiadQueQuiere),
+    cantidadAmbientes(Propiedad,CantidadQueTiene),
+    CantidadQueTiene>=CantiadQueQuiere.
+
 compatiblePileta(Nombre,Propiedad):-
-  quierePiscina(Nombre, Tamanio),
-  pileta(Propiedad, Tamanio).
+  quierePiscina(Nombre, TamanioQueQuiere),
+  pileta(Propiedad, TamanioQueTiene),
+  TamanioQueTiene>=TamanioQueQuiere.
 
  %usuario(carlos,(cantidadAmbientes(depto,3),jardin(depto),noPileta)).

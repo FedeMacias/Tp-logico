@@ -21,7 +21,6 @@ quiereCantidadDeAmbientes(maria,2).
 quiereCantidadDeAmbientes(pedro,2).
 quiereCantidadDeAmbientes(chameleon, 2).
 
-
 quiereJardin(carlos).
 quiereJardin(chameleon).
 
@@ -30,6 +29,7 @@ quierePiscina(carlos,30).
 quierePiscina(maria,15).
 quierePiscina(pedro,15).
 quierePiscina(chameleon,100).
+
 
 propiedadCompatible(Nombre, Propiedad):-
   compatibleJardin(Nombre, Propiedad),

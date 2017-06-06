@@ -4,16 +4,26 @@ precioDepto(avSiempreviva742, 1000).
 precioDepto(calleFalsa123, 200).
 tieneCaracteristicas(tinsmithCircle1774,ambientes(3)).
 tieneCaracteristicas(tinsmithCircle1774,jardin).
-tieneCaracteristicas(tinsmithCircle1774,[aireAcondicionado,extractor,calefaccionAGas]).
+
+
+tieneCaracteristicas(tinsmithCircle1774,aireAcondicionado).
+tieneCaracteristicas(tinsmithCircle1774,extractor).
+tieneCaracteristicas(tinsmithCircle1774,calefaccionAGas).
 tieneCaracteristicas(avMoreno708,ambientes(7)).
 tieneCaracteristicas(avMoreno708,jardin).
 tieneCaracteristicas(avMoreno708,pileta(30)).
-tieneCaracteristicas(avMoreno708,[aireAcondicionado,extractor,lozaRadiante,vidriosDobles).
+
+
+tieneCaracteristicas(avMoreno708,aireAcondicionado).
+tieneCaracteristicas(avMoreno708,extractor).
+tieneCaracteristicas(avMoreno708,lozaRadiante).
+tieneCaracteristicas(avMoreno708,vidriosDobles).
 tieneCaracteristicas(avSiempreviva742,ambientes(4)).
 tieneCaracteristicas(avSiempreviva742,jardin).
-tieneCaracteristicas(avSiempreviva742,[calefaccionAGas]).
+
+tieneCaracteristicas(avSiempreviva742,calefaccionAGas).
+%15
 tieneCaracteristicas(calleFalsa123,ambientes(3)).
-tieneCaracteristicas(calleFalsa123,[]).
 
 persona(carlos).
 persona(ana).
@@ -26,55 +36,55 @@ caracteristicasDeseadas(carlos,jardin).
 caracteristicasDeseadas(ana,pileta(100)).
 caracteristicasDeseadas(ana, aireAcondicionado).
 caracteristicasDeseadas(ana, vidriosDobles).
+%30
 caracteristicasDeseadas(maria,ambientes(2)).
 caracteristicasDeseadas(maria,pileta(15)).
+
 caracteristicasDeseadas(pedro,Caracteristica):-
-  caracteristicasDeseadas(maria,Caracteristica)
+  caracteristicasDeseadas(maria,Caracteristica).
+caracteristicasDeseadas(pedro,lozaRadiante).
+caracteristicasDeseadas(pedro,vidriosDobles).
 caracteristicasDeseadas(chamaleon,Caracteristica):-
-  Persona /= chamaleon,
+	persona(Persona),
+  Persona \= chamaleon,
   caracteristicasDeseadas(Persona,Caracteristica).
 
-propiedadCompatible(Nombre, Propiedad):-
-  compatibleJardin(Nombre, Propiedad),
-  compatibleCantidadAmbientes(Nombre,Propiedad).
-  compatiblePileta(Nombre,Propiedad).
 
-compatibleJardin(Nombre,Propiedad):-
-  quiereJardin(Nombre),
-  jardin(Propiedad).
+cumpleTodo(Nombre,Depto):-
+	
+	forall(persona(Nombre),(caracteristicasDeseadas(Nombre, Caracteristica),tieneCaracteristicas(Depto, Caracteristica))).
 
-compatibleCantidadAmbientes(Nombre,Propiedad):-
-  quiereCantidadDeAmbientes(Nombre,CantidadQueQuiere),
-  cantidadAmbientes(Propiedad,CantidadQueTiene),
-  CantidadQueTiene>=CantidadQueQuiere.
+mejorOpcion(Nombre, Depto):-
+	cumpleTodo(Nombre, Depto),
+	cumpleTodo(Nombre, Depto2),
+	precioDepto(Depto, Precio),
+	precioDepto(Depto2, Precio2),
+	Depto\=Depto2,
+	Precio=<Precio2.
 
-compatiblePileta(Nombre,Propiedad):-
-  quierePiscina(Nombre, TamanioQueQuiere),
-  pileta(Propiedad, TamanioQueTiene),
-  TamanioQueTiene>=TamanioQueQuiere.
+efectividad(Cantidad):-
 
-cumpleTodo(Persona,Propiedad):-
-  propiedadCompatible(Persona,Propiedad).
+	findall(Persona,(persona(Persona),cumpleTodo(Persona, _ ), PersonasSatisfechas),
+	list_to_set(PersonasSatisfechas,PersonasSatisfechasSinRepetir),
+	findall(Persona,(persona(Persona),PersonasEnElMundo),
+	length(PersonasSatisfechasSinRepetir,Cantidad1),
+	length(PersonasEnElMundo, Cantidad2),
+	Cantidad is Cantidad1 \ Cantidad2.
 
-mejorOpcion(Persona,Propiedad):-
-  propiedadCompatible(Persona,Propiedad),
-  propiedadCompatible(Persona,Propiedad2),
-  precioDepto(Propiedad,Precio1),
-  precioDepto(Propiedad2,Precio2),
-  Precio1 < Precio2.
-
-propiedadTop(Propiedad):-
-  tieneCaracteristicas(Propiedad,ambientes(CantidadDeAmbientes)),
-  CantidadDeAmbientes > 1,
-  tieneCaracteristicas(Propiedad,Caracteristica),
-  member(Caracteristica,[Instalaciones]).
+esPropiedadTop(Propiedad):-
+	tieneCaractersiticas(Propiedad,aireAcondicionado),
+	not(esChica(Propiedad)).
+	
 
 
+esChica(Propiedad):-
+	tieneCaracteristicas(Propiedad,ambientes(CantidadDeAmbientes)),
+	CantidadDeAmbientes is 1.
 
+esChica(Propiedad):-
+	not(tieneAmbientes(Propiedad)).
 
-
-
-
+tieneAmbientes(Propiedad):-tieneCaracteristicas(Propiedad,ambientes(_)).
 /** Consultas:
 
 

@@ -76,14 +76,15 @@ precioDepto(Depto,_),
 
 mejorOpcion(Nombre, Depto):-%DEBE VER TODO EL SUBCONJUNTO Y ELEGIR EL MENOR(EJEMPLO MAGOS)
 /*  persona(Nombre),
-	cumpleTodo(Nombre, Depto),
-	cumpleTodo(Nombre, Depto2),
-	precioDepto(Depto, Precio),
-	precioDepto(Depto2, Precio2),
-	Depto\=Depto2,*/
+  cumpleTodo(Nombre, Depto),
+  cumpleTodo(Nombre, Depto2),
+  precioDepto(Depto, Precio),
+  precioDepto(Depto2, Precio2),
+  Depto\=Depto2,*/
+  persona(Nombre),
+  cumpleTodo(Nombre,Depto),
   precioDepto(Depto,UnPrecio),
-  forall((precioDepto(OtroDepto,OtroPrecio),cumpleCaracteristica(Nombre,OtroDepto)),(UnPrecio=<OtroPrecio)).
-
+  forall((cumpleTodo(Nombre,OtroDepto),precioDepto(OtroDepto,OtroPrecio),cumpleCaracteristica(Nombre,OtroDepto)),(UnPrecio=<OtroPrecio)).
 
 /*
 efectividad(Cantidad):-

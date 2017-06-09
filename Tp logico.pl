@@ -5,21 +5,21 @@ precioDepto(calleFalsa123, 200).
 
 tieneCaracteristicas(tinsmithCircle1774,ambientes(3)).
 tieneCaracteristicas(tinsmithCircle1774,jardin).
-tieneCaracteristicas(tinsmithCircle1774,aireAcondicionado).
-tieneCaracteristicas(tinsmithCircle1774,extractor).
-tieneCaracteristicas(tinsmithCircle1774,calefaccionAGas).
+%tieneCaracteristicas(tinsmithCircle1774,aireAcondicionado).
+%tieneCaracteristicas(tinsmithCircle1774,extractor).
+%tieneCaracteristicas(tinsmithCircle1774,calefaccionAGas).
 
 tieneCaracteristicas(avMoreno708,ambientes(7)).
 tieneCaracteristicas(avMoreno708,jardin).
 tieneCaracteristicas(avMoreno708,pileta(30)).
-tieneCaracteristicas(avMoreno708,aireAcondicionado).
-tieneCaracteristicas(avMoreno708,extractor).
-tieneCaracteristicas(avMoreno708,lozaRadiante).
-tieneCaracteristicas(avMoreno708,vidriosDobles).
+%tieneCaracteristicas(avMoreno708,aireAcondicionado).
+%tieneCaracteristicas(avMoreno708,extractor).
+%tieneCaracteristicas(avMoreno708,lozaRadiante).
+%tieneCaracteristicas(avMoreno708,vidriosDobles).
 
 tieneCaracteristicas(avSiempreviva742,ambientes(4)).
 tieneCaracteristicas(avSiempreviva742,jardin).
-tieneCaracteristicas(avSiempreviva742,calefaccionAGas).
+%tieneCaracteristicas(avSiempreviva742,calefaccionAGas).
 tieneCaracteristicas(calleFalsa123,ambientes(3)).
 
 persona(carlos).
@@ -48,24 +48,41 @@ caracteristicasDeseadas(chamaleon,Caracteristica):-
   Persona \= chamaleon,
   caracteristicasDeseadas(Persona,Caracteristica).
 
+%(CONSULTAS 6 Y 7), NO SE COMO PLANTEAR EJERCICIO PARA SATISFACERLAS
+cumpleCaracteristica(Nombre,Propiedad):-
+  caracteristicasDeseadas(Nombre,Caracteristica),
+  tieneCaracteristicas(Propiedad,Caracteristica).
+
+cumpleCaracteristica(Nombre,Propiedad):-
+  caracteristicasDeseadas(Nombre,Caracteristica),
+  precioDepto(Propiedad,_),
+  bla(Caracteristica,Propiedad).
+
+bla(pileta(Metros), Propiedad):-
+  tieneCaracteristicas(Propiedad,pileta(OtrosMetros)),
+  Metros<OtrosMetros.
+
+bla(ambientes(Metros), Propiedad):-
+    tieneCaracteristicas(Propiedad,ambientes(OtrosMetros)),
+    Metros<OtrosMetros.
 
 
-
-
-cumpleTodo(Nombre,Depto):- RECURSIVIDAD??
+cumpleTodo(Nombre,Depto):- %RECURSIVIDAD??
 persona(Nombre),
+precioDepto(Depto,_),
 	forall(caracteristicasDeseadas(Nombre, Caracteristica),tieneCaracteristicas(Depto, Caracteristica)).
 
 
 
-mejorOpcion(Nombre, Depto):-DEBE VER TODO EL SUBCONJUNTO Y ELEGIR EL MENOR(EJEMPLO MAGOS)
-  persona(Nombre),
+mejorOpcion(Nombre, Depto):-%DEBE VER TODO EL SUBCONJUNTO Y ELEGIR EL MENOR(EJEMPLO MAGOS)
+/*  persona(Nombre),
 	cumpleTodo(Nombre, Depto),
 	cumpleTodo(Nombre, Depto2),
 	precioDepto(Depto, Precio),
 	precioDepto(Depto2, Precio2),
-	Depto\=Depto2,
-	Precio=<Precio2.
+	Depto\=Depto2,*/
+  precioDepto(Depto,UnPrecio),
+  forall((precioDepto(OtroDepto,OtroPrecio),cumpleCaracteristica(Nombre,OtroDepto)),(UnPrecio=<OtroPrecio)).
 
 
 /*
@@ -120,7 +137,14 @@ Caracteristica = vidriosDobles.
  ?- tieneCaracteristicas(Propiedad,ambientes(2)).
  false.
 
+
 5. Cuál propiedad tiene (cumple) algo de lo que quiere Pedro.
+?- cumpleCaracteristica(pedro,Propiedad).
+Propiedad = avMoreno708 ;
+Propiedad = tinsmithCircle1774 ;
+Propiedad = avMoreno708 ;
+Propiedad = avSiempreviva742 ;
+Propiedad = calleFalsa123 ;
 
 
 6. Qué se está deseando de la propiedad de Av. Moreno 708 (y que ésta lo cumpla).
@@ -130,7 +154,10 @@ Caracteristica = vidriosDobles.
 
 
 8. Qué persona se relaciona con cuál propiedad mediante ese predicado.
-
+?- cumpleTodo(Nombre,Propiedad).
+Nombre = carlos,
+Propiedad = tinsmithCircle1774 ;
+false.
 
 9. Qué persona se relaciona con cuál propiedad (asegurarse de que ambas alternativas encuentren las mismas
 soluciones, ya sean en el mismo orden o no).

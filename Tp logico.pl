@@ -5,21 +5,21 @@ precioDepto(calleFalsa123, 200).
 
 tieneCaracteristicas(tinsmithCircle1774,ambientes(3)).
 tieneCaracteristicas(tinsmithCircle1774,jardin).
-%tieneCaracteristicas(tinsmithCircle1774,aireAcondicionado).
-%tieneCaracteristicas(tinsmithCircle1774,extractor).
-%tieneCaracteristicas(tinsmithCircle1774,calefaccionAGas).
+tieneCaracteristicas(tinsmithCircle1774,aireAcondicionado).
+tieneCaracteristicas(tinsmithCircle1774,extractor).
+tieneCaracteristicas(tinsmithCircle1774,calefaccionAGas).
 
 tieneCaracteristicas(avMoreno708,ambientes(7)).
 tieneCaracteristicas(avMoreno708,jardin).
 tieneCaracteristicas(avMoreno708,pileta(30)).
-%tieneCaracteristicas(avMoreno708,aireAcondicionado).
-%tieneCaracteristicas(avMoreno708,extractor).
-%tieneCaracteristicas(avMoreno708,lozaRadiante).
-%tieneCaracteristicas(avMoreno708,vidriosDobles).
+tieneCaracteristicas(avMoreno708,aireAcondicionado).
+tieneCaracteristicas(avMoreno708,extractor).
+tieneCaracteristicas(avMoreno708,lozaRadiante).
+tieneCaracteristicas(avMoreno708,vidriosDobles).
 
 tieneCaracteristicas(avSiempreviva742,ambientes(4)).
 tieneCaracteristicas(avSiempreviva742,jardin).
-%tieneCaracteristicas(avSiempreviva742,calefaccionAGas).
+tieneCaracteristicas(avSiempreviva742,calefaccionAGas).
 tieneCaracteristicas(calleFalsa123,ambientes(3)).
 
 persona(carlos).
@@ -67,34 +67,28 @@ bla(ambientes(Metros), Propiedad):-
     Metros<OtrosMetros.
 
 
-cumpleTodo(Nombre,Depto):- %RECURSIVIDAD??
+cumpleTodo(Nombre,Depto):- 
 persona(Nombre),
 precioDepto(Depto,_),
 	forall(caracteristicasDeseadas(Nombre, Caracteristica),tieneCaracteristicas(Depto, Caracteristica)).
 
 
 
-mejorOpcion(Nombre, Depto):-%DEBE VER TODO EL SUBCONJUNTO Y ELEGIR EL MENOR(EJEMPLO MAGOS)
-/*  persona(Nombre),
-  cumpleTodo(Nombre, Depto),
-  cumpleTodo(Nombre, Depto2),
-  precioDepto(Depto, Precio),
-  precioDepto(Depto2, Precio2),
-  Depto\=Depto2,*/
+mejorOpcion(Nombre, Depto):-
   persona(Nombre),
   cumpleTodo(Nombre,Depto),
   precioDepto(Depto,UnPrecio),
   forall((cumpleTodo(Nombre,OtroDepto),precioDepto(OtroDepto,OtroPrecio),cumpleCaracteristica(Nombre,OtroDepto)),(UnPrecio=<OtroPrecio)).
 
-/*
+
+
 efectividad(Cantidad):-
-	findall(Persona,(persona(Persona),cumpleTodo(Persona, _ ), PersonasSatisfechas),
+	findall(Persona,(persona(Persona),cumpleTodo(Persona, _ )), PersonasSatisfechas),
 	list_to_set(PersonasSatisfechas,PersonasSatisfechasSinRepetir),
-	findall(Persona,(persona(Persona),PersonasEnElMundo),
+	findall(Persona1,persona(Persona1),PersonasEnElMundo),
 	length(PersonasSatisfechasSinRepetir,Cantidad1),
 	length(PersonasEnElMundo, Cantidad2),
-	Cantidad is (Cantidad1 / Cantidad2).
-*/
+	Cantidad is Cantidad1 / Cantidad2.
 
 
 
@@ -162,10 +156,13 @@ false.
 
 9. Qué persona se relaciona con cuál propiedad (asegurarse de que ambas alternativas encuentren las mismas
 soluciones, ya sean en el mismo orden o no).
-
+?- mejorOpcion(Persona,Propiedad).
+Persona = carlos,
+Propiedad = tinsmithCircle1774 ;
 
 10. Qué efectividad tiene nuestro sistema.
-
+?- efectividad(A).
+A = 0.2.
 
 11. Determinar cuáles son las propiedades top.
 ?- esPropiedadTop(PropiedadTop).

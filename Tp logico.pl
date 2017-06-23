@@ -66,19 +66,25 @@ mejorOpcion(Nombre, Depto):-
   cumpleTodo(Nombre,Depto),
   precioDepto(Depto,UnPrecio),
   forall((precioDepto(OtroDepto,OtroPrecio),cumpleTodo(Nombre,OtroDepto)),(UnPrecio=<OtroPrecio)).
-  %Hacer opcion 2 con el doble NOT
 
+
+/**VERSIÒN CON NOT
+  mejorOpcion(Nombre, Depto):-
+    cumpleTodo(Nombre,Depto),
+    precioDepto(Depto,UnPrecio),
+    not(((precioDepto(OtroDepto,OtroPrecio),cumpleTodo(Nombre,OtroDepto)),(UnPrecio>OtroPrecio))).
+    */
 efectividad(Cantidad):-
-  todasLasSatisfechas(Personas),
-  todasLasPersonas(Personas),
+  todasLasSatisfechas(PersonasSatisfechasSinRepetir),
+  todasLasPersonas(PersonasEnElMundo),
 	length(PersonasSatisfechasSinRepetir,Cantidad1),
 	length(PersonasEnElMundo, Cantidad2),
 	Cantidad is Cantidad1 / Cantidad2.
 
-todasLasPersonas(Persona):-
+todasLasPersonas(PersonasEnElMundo):-
   findall(Persona,persona(Persona),PersonasEnElMundo).
 
-todasLasSatisfechas(Persona):-
+todasLasSatisfechas(PersonasSatisfechasSinRepetir):-
 findall(Persona,(estaSatisfecho(Persona)), PersonasSatisfechas),
 list_to_set(PersonasSatisfechas,PersonasSatisfechasSinRepetir).
 
@@ -256,9 +262,10 @@ Persona = maria,
 Propiedad = avMoreno708 ;
 
 10. Qué efectividad tiene nuestro sistema.
-
+?- efectividad(EfectividadDelSistema).
+EfectividadDelSistema = 0.4.
 
 11. Determinar cuáles son las propiedades top.
 ?- esPropiedadTop(PropiedadTop).
-
+false.
 */

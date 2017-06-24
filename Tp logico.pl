@@ -67,13 +67,13 @@ mejorOpcion(Nombre, Depto):-
   precioDepto(Depto,UnPrecio),
   forall((precioDepto(OtroDepto,OtroPrecio),cumpleTodo(Nombre,OtroDepto)),(UnPrecio=<OtroPrecio)).
 
-
 /**VERSIÒN CON NOT
   mejorOpcion(Nombre, Depto):-
     cumpleTodo(Nombre,Depto),
     precioDepto(Depto,UnPrecio),
     not(((precioDepto(OtroDepto,OtroPrecio),cumpleTodo(Nombre,OtroDepto)),(UnPrecio>OtroPrecio))).
     */
+
 efectividad(Cantidad):-
   todasLasSatisfechas(PersonasSatisfechasSinRepetir),
   todasLasPersonas(PersonasEnElMundo),
@@ -105,10 +105,9 @@ esChica(Propiedad):-
 
 tieneAmbientes(Propiedad):-tieneCaracteristicas(Propiedad,ambientes(_)).
 
-% Pendientes
-% 1-Hacer parte teorica
-% 2-Hacer bonus (si sale)
-% 3-Rehacer las Consultas
+/** Teoría: Al agregar las instalaciones a las caracteristicas de los edificios se uso el concepto de polimorfismo, con esto logramos que una sola funcionalidad
+    sirva para "formas" diferentes, en este caso estamos usando un polimorfismo de tipo "ad-hoc" que nos permite hacer multiples definiciones
+    de una misma funcionalidad para aplicarse a constructores distintos, gracias a esto pudimos agregar "instalaciones" al predicado "tieneCaracteristicas".
 
 /** Consultas:
 1. Si existe alguna propiedad con una piscina de 30 metros, y si es que existe, cuál es.
